@@ -1,0 +1,73 @@
+h4 small
+{
+    display: block;
+    font-size: 60%;
+    color: #888;
+}
+
+.mainContent, footer.container, header.container {
+    max-width: 900px;
+}
+
+footer.container {
+    margin-top: 30px;
+    padding: 30px 0;
+    border-top: 1px dashed #aaa;
+}
+
+.post-title {
+    font-size: 12px;
+    font-weight: normal;
+    color: #808080;
+}
+
+header.container {
+    padding-bottom: 30px;
+    border-bottom: 1px solid #aaa;
+}
+
+.mainContent article {
+    padding-bottom: 10px;
+}
+
+@media (max-width: 767px) {
+    .sidebar {
+        padding-top: 30px;
+    }
+}
+@media (min-width: 980px) {
+    body {
+        padding-top: 40px; /* 60px to make the container go all the way to the bottom of the topbar */
+        padding-bottom: 40px;
+    }
+}
+
+.mainContent p, .mainContent ul {
+    color: #333333;
+    font-size: 18px;
+    line-height: 1.5em;
+}
+
+a, a:visited, a:link {
+    color: #333333;
+}
+
+a.header {
+    text-decoration: none;
+    font-size: 30px;
+}
+
+article.post a {
+    text-decoration: underline;
+}
+
+img {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
+    display: block;
+}
+
+footer ul li {
+    list-style: none;
+}

@@ -1,0 +1,21 @@
+{% extends "default" %}
+{% block meta %}
+    {% if page.untrack %}
+<meta name="robots" content="noindex,nofollow">
+    {% endif %}
+{% endblock %}
+
+{% block content_wrapper %}
+    <article class="post">
+        <header>
+            <h2>
+                {{ page.title }}
+                <span class="post-title pull-right"> {{ post.date | date("F d, Y") }}</span>
+            </h2>
+        </header>
+        <div>
+            {{ page.blocks.content|raw }}
+        </div>
+
+    </article>
+{% endblock %}
