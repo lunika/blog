@@ -1,0 +1,12 @@
+.reveal section img {
+    border: transparent;
+    box-shadow: none;
+}
+
+.reveal section .note {
+    font-size: 0.5em;
+}
+
+.reveal pre {
+    box-shadow: none;
+}

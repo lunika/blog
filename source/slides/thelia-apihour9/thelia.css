@@ -1,0 +1,9 @@
+.reveal h1, .reveal h2, .reveal h3 {
+    color: #EF8B35;
+    text-shadow: none;
+    font-family: 'Lato',Arial,serif;
+}
+
+.reveal .cover a {
+    color: #616161;
+}

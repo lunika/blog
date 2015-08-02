@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Thelia 2</title>
+
+    <meta name="description" content="Présentation Thelia lors de l'APIHour 9">
+    <meta name="author" content="Manuel Raynaud - manu@thelia.net">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+    <link rel="stylesheet" href="reveal.js/css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="reveal-custom/css/custom.css">
+    <link rel="stylesheet" href="thelia.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+        document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        .cover {
+            color: #616161
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="reveal">
+
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+    <section class="cover" data-background="img/bg.jpg">
+        <img src="img/logo-thelia2-gris.png">
+        <p>E-Commerce solution based on Symfony 2 components</p>
+        <p>
+            <small>By <a class="cover" href="http://manuel-raynaud.com/">Manuel Raynaud</a> / <a href="https://twitter.com/manuraynaud">@manuraynaud</a></small>
+        </p>
+        <p>
+            <small style="float: left">Clemont'ech APIHour #9</small>
+            <small style="float: right">28/05/2014</small>
+        </p>
+    </section>
+    <section>
+        <section data-background="img/why.jpg">
+
+        </section>
+        <section>
+            <ul>
+                <li>Internationalisation</li>
+                <li>Interopérabilité</li>
+                <li>Mise en place de bonnes pratiques</li>
+                <li>Nouvelles fonctionnalités</li>
+            </ul>
+        </section>
+        <section>
+            <h2>BackOffice</h2>
+            <ul>
+                <li>php 5.4</li>
+                <li>sf2 components</li>
+                <li>Propel</li>
+            </ul>
+        </section>
+        <section>
+            <h3>sf2 components</h3>
+            <ul>
+                <li>HttpKernel</li>
+                <li>HttpFoundation</li>
+                <li>EventDispatcher</li>
+                <li>DependencyInjection</li>
+                <li>Form</li>
+            </ul>
+        </section>
+        <section>
+            <h2>FrontOffice</h2>
+            <ul>
+                <li>HTML 5</li>
+                <li>BootStrap 3 + less</li>
+            </ul>
+        </section>
+    </section>
+    <section>
+        <section>
+            <h1>étendre Thelia</h1>
+        </section>
+        <section>
+            <h3>Structure d'un module</h3>
+            <pre>
+                <code data-trim>
+MyModule
+    MyModule.php
+    Config
+        config.xml
+        module.xml
+        routing.xml
+        schema.xml
+    Controller
+        MyModuleAdminController.php
+    I18n
+        fr_FR.php
+        en_US.php
+    Model
+        Base
+        Map
+        MyModule.php
+        MyModuleQuery.php
+    Listeners
+        CartListener.php
+        OrderListener.php
+    Loop
+        MyModuleLoop.php
+    templates
+        ...
+                </code>
+            </pre>
+        </section>
+    </section>
+    <section>
+        <section>
+            <h2>Listeners</h2>
+            <img src="img/mediator.png">
+        </section>
+        <section>
+            <img src="img/request2.png">
+        </section>
+        <section>
+            <h2>Dispatch d'un event</h2>
+        </section>
+        <section>
+            <h3>Récupérer le dispatcher</h3>
+            <pre>
+                <code class="php" data-trim data-noescape>
+//depuis le container
+$eventDispatcher = $container->get('event_dispatcher');
+
+//depuis un event
+$eventDispatcher = $event->getDispatcher();
+                </code>
+            </pre>
+        </section>
+        <section>
+            <h3>Créer un event</h3>
+            <p>1 event = 1 classe de données</p>
+        </section>
+        <section>
+            <pre>
+                <code class="php" data-trim data-noescape>
+&lt;?php
+namespace Thelia\Core\Event;
+use Symfony\Component\EventDispatcher\Event;
+class Cart extends Event
+{
+    protected $productId;
+    protected $quantity;
+
+    public function __construct($productId, $quantity)
+    {
+        $this->productId = $productId;
+        $this->quantity = $quantity;
+    }
+
+    public function getProductId()
+    {
+        return $this->productId;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+}
+                </code>
+            </pre>
+        </section>
+        <section>
+            <pre>
+                <code class="php" data-trim data-noescape>
+use Thelia\Core\Event\Cart;
+use Thelia\Core\Event\TheliaEvents;
+
+//
+
+$eventDispatcher = $container->get('event_dispatcher');
+$cartEvent = new Cart(1, 3);
+$eventDispatcher->dispatch(TheliaEvent::CART_ADD, $cartEvent);
+                </code>
+            </pre>
+        </section>
+        <section>
+            <h3>Liste des events Thelia</h3>
+            <ul>
+                <li><a href="http://doc.thelia.net/en/documentation/development/events/index.html">Documentation -> dev -> event</a></li>
+                <li><a href="http://doc.thelia.net/api/master/Thelia/Core/Event/TheliaEvents.html">Thelia\Core\Event\TheliaEvents</a></li>
+            </ul>
+        </section>
+        <section>
+            <h3>Créer un listener</h3>
+            <pre>
+                <code class="php" data-trim data-noescape>
+&lt;?php
+namespace MyModule\Listener;
+use Thelia\Core\Event\TheliaEvents;
+use Thelia\Core\Event\CartEvent;
+Class CartListener implements EventSubscriberInterface
+{
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            TheliaEvents::CART_ADD => ['addItem', 100]
+        ];
+    }
+
+    public function addItem(CartEvent $event)
+    {
+        $item = $event->getCart()->getLast();
+
+        $item->addQuantity(rand(1,5));
+        $item->save();
+    }
+
+}
+                </code>
+            </pre>
+        </section>
+        <section>
+            <h3>Déclarer le listener</h3>
+            <pre>
+                <code class="xml" data-trim data-noescape>
+&lt;service id="MyModule.cart.listener" class="MyModule\Listener\Cart">
+    &lt;tag name="kernel.event_subscriber"/>
+&lt;/service>
+                </code>
+            </pre>
+        </section>
+        <section>
+            <h2>Avantages</h2>
+            <ul>
+                <li>Jouer sur la priorité</li>
+                <li>Possibilité de surcharger totalement Thelia</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Inconvénient</h2>
+            <p>Rien ne vous assure que votre listener sera exécuté</p>
+        </section>
+    </section>
+    <section>
+        <section>
+            <h2>Routing</h2>
+        </section>
+        <section>
+            <p>Il suffit de créer un fichier routing.xml dans le répertoire Config</p>
+            <pre>
+                <code class="xml" data-trim>
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+    <route id="mumodule.id" path="/foo">
+        <default key="_controller">
+            MyModule\Controller\MyModuleAdminController::fooAction
+        </default>
+    </route>
+</routes>
+                </code>
+            </pre>
+        </section>
+        <section>
+            <p>Config personnalisée</p>
+
+            <pre>
+                <code class="xml">
+<service id="router.front" class="%router.class%">
+    <argument type="service" id="router.module.xmlLoader"/>
+    <argument>MyModule/Config/custom_routing.xml</argument>
+    <argument type="collection">
+        <argument key="cache_dir">%kernel.cache_dir%</argument>
+        <argument key="debug">%kernel.debug%</argument>
+    </argument>
+    <argument type="service" id="request.context"/>
+    <tag name="router.register" priority="256"/>
+</service>
+                </code>
+            </pre>
+        </section>
+    </section>
+    <section>
+        <section>
+            <h1>Next ?</h1>
+        </section>
+        <section>
+            <ul>
+                <li>Hooks</li>
+                <li>API</li>
+                <li>Marketplace</li>
+            </ul>
+        </section>
+    </section>
+    <section>
+        <section>
+            <h1>One More Thing !</h1>
+        </section>
+        <section data-background="#FFFFFF">
+            <img src="img/jacquo.png">
+        </section>
+    </section>
+    <section>
+        <h1>Merci !</h1>
+        <ul>
+            <li><a href="http://doc.thelia.net">http://doc.thelia.net</a></li>
+            <li><a href="https://github.com/thelia/thelia">https://github.com/thelia</a></li>
+            <li><a href="https://twitter.com/theliaecommerce">@theliaecommerce</a></li>
+        </ul>
+    </section>
+
+</div>
+
+</div>
+
+<script src="reveal.js/js/reveal.min.js"></script>
+<script src="reveal.js/lib/js/head.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'reveal.js/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+            // { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+            // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
