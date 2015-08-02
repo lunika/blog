@@ -1,0 +1,60 @@
+.reveal h1 {
+    color: #ef8b35;
+    text-shadow: none;
+    font-size: 1.6em;
+    font-family: 'Lato', Arial, serif;
+}
+
+.reveal h2{
+	/*color: #575757;*/
+	color: #ef8b35;
+	font-size: 1.4em;
+	font-family: 'Lato', Arial, serif;
+	font-weight: 700;
+	line-height: 1.5em;
+}
+
+.reveal h2 .baseline{
+	font-size: 0.9em;
+    /*color: #575757;*/
+    color: #ef8b35;
+    text-transform: none;
+    font-weight: 700;
+ }
+
+.reveal h4, .reveal h3 {
+    color: #ef8b35;
+}
+
+.reveal section img {
+    border: none;
+    background: none;
+    box-shadow: none;
+}
+
+.reveal pre {
+    box-shadow: none;
+}
+
+.reveal .separator{
+	height: 1.5em;
+}
+
+.reveal section ul li {
+ 	font-size: 0.8em;
+	
+	list-style-image: url('../images/puce.png');
+	font-family: 'Lato', Arial, serif;
+   	font-weight: 400;
+}
+
+
+.reveal p{
+	font-size: 0.8em;
+	font-family: 'Lato', Arial, serif;
+   	font-weight: 400;
+}
+
+#intro {
+    color: #575757;
+}
