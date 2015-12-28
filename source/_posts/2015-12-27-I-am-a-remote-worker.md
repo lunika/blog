@@ -7,7 +7,7 @@ This year was for me the end of Thelia's adventure. It was an interesting experi
 
 When I looked for a new Job, I didn't look for companies only in my city but companies I would like to work with. For the project they have, the technologies they use, if they contribute to some open source project or best if they have their own open source project. And all of this without moving from my current house. If this company is in my city it will be ok. If not, I was ok to work remotely.
 
-It was not really easy to found a company who accept to work with someone remotely. In fact I found 2.
+It was not really easy to find a company who accept to work with someone remotely. In fact I found 2.
 
 The first one didn't want remote worker but after some discussion they were interested to try it. For other reason I didn't work for them  but I know they have someone now who works remotely and I'm still in contact with them to exchange about some practice to enhance remote work.
 The second is [wisembly](http://www.wisembly.com), they already have one employee working remotely, He is in the same city where I live so it was easy for them to try again to work remotely with someone else.
